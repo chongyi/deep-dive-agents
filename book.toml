@@ -4,7 +4,6 @@ authors = ["wenshi-agent-project"]
 description = "从零理解 Agent 的构造，并以主流开源实现印证设计取舍"
 src = "src"
 language = "zh-CN"
-multilingual = false
 
 [build]
 build-dir = "book"
@@ -14,7 +13,10 @@ use-default-preprocessors = true
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
-curly-quotes = false
+# mdBook 0.5 特性：GFM 提示框（> [!NOTE] / [!WARNING] 等）与定义列表
+admonitions = true
+definition-lists = true
+smart-punctuation = false
 no-section-label = false
 # mermaid 渲染方案：不使用 mdbook-mermaid 预处理器，
 # 直接内置 mermaid.min.js（12.1.0）+ 自写加载脚本，在浏览器端渲染 ```mermaid 代码块
