@@ -30,9 +30,17 @@
     return null;
   }
 
-  /* mdBook 的主题以 body 的 class 表示（light / rust / coal / navy / ayu） */
+  /* mdBook 0.5+ 把主题类放在 <html> 上，0.4 及部分主题脚本放在 <body> 上，两处都读 */
+  function themeClasses() {
+    return (
+      ((document.documentElement && document.documentElement.className) || "") +
+      " " +
+      ((document.body && document.body.className) || "")
+    );
+  }
+
   function mermaidTheme() {
-    var classes = ((document.body && document.body.className) || "").split(/\s+/);
+    var classes = themeClasses().split(/\s+/);
     for (var i = 0; i < classes.length; i++) {
       if (DARK_THEMES.indexOf(classes[i]) !== -1) return "dark";
     }
@@ -67,14 +75,16 @@
     if (!api) return;
     if (diagrams.length === 0) return;
 
+    var theme = mermaidTheme();
     api.initialize({
       startOnLoad: false,
       securityLevel: "strict",
-      theme: mermaidTheme()
+      theme: theme
     });
 
     diagrams.forEach(function (d) {
       d.container.classList.remove("mermaid-error");
+      d.container.setAttribute("data-mermaid-theme", theme);
       var id = "mdbook-mermaid-" + seq++;
       api
         .render(id, d.source)
@@ -91,13 +101,19 @@
   function watchTheme() {
     if (typeof MutationObserver === "undefined") return;
     var last = mermaidTheme();
-    new MutationObserver(function () {
+    var observer = new MutationObserver(function () {
       var now = mermaidTheme();
       if (now !== last) {
         last = now;
         renderAll();
       }
-    }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    });
+    /* mdBook 0.5+ 切换主题改写 <html> 的 class，旧版改写 <body>，两处都监听 */
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
   }
 
   collect();
