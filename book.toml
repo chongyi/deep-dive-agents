@@ -1,0 +1,39 @@
+[book]
+title = "深入浅出 Agent"
+authors = ["wenshi-agent-project"]
+description = "从零理解 Agent 的构造，并以主流开源实现印证设计取舍"
+src = "src"
+language = "zh-CN"
+multilingual = false
+
+[build]
+build-dir = "book"
+create-missing = true
+use-default-preprocessors = true
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+curly-quotes = false
+no-section-label = false
+# mermaid 渲染方案：不使用 mdbook-mermaid 预处理器，
+# 直接内置 mermaid.min.js（12.1.0）+ 自写加载脚本，在浏览器端渲染 ```mermaid 代码块
+additional-css = ["custom.css"]
+additional-js = ["mermaid.min.js", "mermaid-loader.js"]
+
+[output.html.fold]
+enable = true
+level = 0
+
+[output.html.search]
+enable = true
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 1
+boost-paragraph = 1
+expand = true
+heading-split-level = 3
+limit-results = 30
+
+[output.html.print]
+enable = true

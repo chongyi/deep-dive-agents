@@ -1,0 +1,46 @@
+/* ==== 《深入浅出 Agent》自定义样式 ==== */
+
+/* 中文字体回退：保证 macOS / Windows / Linux 观感一致 */
+body {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    sans-serif;
+}
+
+/* mermaid 图表容器：居中、超宽时横向滚动，避免破坏排版 */
+.mermaid-container {
+  margin: 1.4em auto;
+  text-align: center;
+  overflow-x: auto;
+  padding: 0.4em 0;
+}
+.mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* mermaid 渲染失败时的降级展示 */
+.mermaid-container.mermaid-error {
+  text-align: left;
+  white-space: pre-wrap;
+  font-family: "Source Code Pro", "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  color: #b3261e;
+  border: 1px dashed rgba(179, 38, 30, 0.4);
+  border-radius: 4px;
+  padding: 0.8em;
+}
+
+/* 长表格在窄屏下可横向滚动 */
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* 打印（整书导出页）时图表尽量不跨页拆断 */
+@media print {
+  .mermaid-container {
+    break-inside: avoid;
+  }
+}

@@ -1,0 +1,62 @@
+# 深入浅出 Agent（书稿）
+
+一本面向「完全没写过 Agent 的工程师」的书：第一部分从最小的 Agent 循环出发，由浅入深搭建对 Agent 的完整心智模型；第二部分用这套模型剖析 Codex CLI、Claude Code、OpenCode、Gemini CLI、Aider 等主流开源实现的设计取舍。
+
+基于 [mdBook](https://rust-lang.github.io/mdBook/) 编写，目录为 `src/`，构建产物在 `book/`。
+
+## 目录结构
+
+```
+.
+├── book.toml          # mdBook 配置（含 mermaid 客户端渲染方案）
+├── custom.css         # 附加样式（中文字体、图表容器等）
+├── mermaid.min.js     # 内置的 mermaid 12.1.0（保证离线可渲染，勿手改）
+├── mermaid-loader.js  # 自写的 mermaid 加载脚本（免预处理器方案）
+└── src/               # 书稿正文
+    ├── SUMMARY.md     # 目录定义（增删章节在此登记）
+    ├── README.md      # 前言
+    ├── part1/         # 第一部分：深入浅出 Agent
+    ├── part2/         # 第二部分：主流开源 Agent 剖析
+    └── appendix/      # 附录
+```
+
+## 构建与阅读
+
+```bash
+mdbook serve --open   # 本地写作预览：http://localhost:3000
+mdbook build          # 产出静态站点到 book/，可直接部署
+```
+
+依赖：mdBook ≥ 0.5（`cargo install mdbook` 或 `brew install mdbook`）。**不需要** 安装
+`mdbook-mermaid` 等预处理器。
+
+## mermaid 图表方案
+
+书稿直接使用标准 Markdown 围栏：
+
+````
+```mermaid
+flowchart LR
+    A --> B
+```
+````
+
+渲染发生在浏览器端：mdBook 把围栏输出为 `pre.language-mermaid` 代码块，
+`mermaid-loader.js` 在页面加载后将其替换为图表，并跟随 mdBook 明/暗主题自动重渲染。
+mermaid.min.js 固定为 12.1.0 并内置在仓库中，因此离线构建、阅读均可用；
+升级 mermaid 时替换该文件并更新本 README 中的版本号。
+
+## 写作约定
+
+- 正文中文；术语以业界惯用译法为主，首次出现标注英文原词（对照见附录 A 术语表）
+- 图表一律用 mermaid（时序图 `sequenceDiagram`、流程图 `flowchart`、状态图 `stateDiagram-v2` 等），不贴截图
+- 代码示例用 TypeScript / Python 伪代码，聚焦结构、不绑定具体 SDK 版本
+- 引用外部事实注明来源（附录 B 汇总链接）；开源项目演进快，事实口径以「截至 2026-10」为准
+
+## 版本管理
+
+本书目录是独立 Git 仓库（遵循 doc-library 中 `design/` 的同款惯例，父仓库不收录其内容）。
+
+```bash
+git log --oneline   # 查看书稿修订历史
+```
