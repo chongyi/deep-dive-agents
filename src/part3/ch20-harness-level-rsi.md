@@ -39,7 +39,7 @@ flowchart TB
 | **DSPy**（Stanford，2023） | 把提示词与少样本示例声明式化，用优化器搜索（BootstrapFewShot、MIPRO 等） | 口号是「编程而非写提示」（programming, not prompting） |
 | **GEPA**（2025） | 反思式提示进化：用少量 rollout 反思改写提示 | 四个任务平均超越 GRPO（强化学习）10%、最高 20%，rollout 消耗低至 1/35；已并入 DSPy |
 
-GEPA 的口号值得单独拎出来，因为它就是本章的方法论：**「If you can measure it, you can optimize it」——能度量，就能优化**。这直接回扣第 10 章：评估集不是后台质量报表，它是自我改进回路的目标函数。没有第 10 章的功课（20 条任务起步、留出集、轨迹落盘），就没有本章的一切。
+GEPA 的口号值得单独拎出来，因为它就是本章的方法论：**「If you can measure it, you can optimize it」——能度量，就能优化**。这直接呼应第 10 章：评估集不是后台质量报表，它是自我改进回路的目标函数。没有第 10 章的功课（20 条任务起步、留出集、轨迹落盘），就没有本章的一切。
 
 ## 20.3 程序层：让代码进化
 

@@ -6,70 +6,109 @@
 
 2025 年 2 月随 Claude 3.7 Sonnet 以 research preview 发布、同年 5 月 GA 的终端优先编码 Agent，是这一品类的**事实标杆**——后续几乎所有竞品的设计对话都绕不开「对比 Claude Code」。产品形态从 CLI 扩展到 VS Code/JetBrains 扩展、桌面端与移动端；headless 模式（`claude -p`）与 Claude Agent SDK 复用同一引擎，把「Agent 作为可编程组件」开放给开发者。
 
-## 14.2 架构：刻意选择的单进程单体
+## 14.2 架构演进与版本锚定
 
-创建者 Boris Cherny 在访谈中确认了这个「反直觉」的决策：**单进程 TypeScript 应用**，没有按能力拆微服务。CLI、IDE 扩展、桌面端共享同一内核；工具、子代理、hooks、MCP 全部在进程内协作。
+**版本锚定**：本章锚定 **stable 通道 2.1.285**（2026-09-29；latest/next 通道已至 2.1.289）。Claude Code 走高频 npm 发版（每周多个），`stable / latest / next` 三条通道并行——版本跟踪看 [npm](https://www.npmjs.com/package/@anthropic-ai/claude-code)。
+
+Claude Code 的架构演进是一个**反直觉的样本：主架构从未改变**。创建者 Boris Cherny 在访谈中确认了这个决策——自始至终是**单进程 TypeScript 应用**，CLI、IDE 扩展、桌面端共享同一内核。真正值得学的是：**架构不变，能力靠扩展点生长**——
+
+```mermaid
+flowchart LR
+    a["2025.02<br/>research preview<br/>单进程 + 核心工具集"] --> b["2025.05<br/>GA；IDE/桌面扩展<br/>（内核不变）"]
+    b --> c["2025 下半年<br/>hooks 事件体系<br/>subagents · Skills · MCP"]
+    c --> d["2026（v2.x）<br/>工具家族化演进<br/>权限 auto 模式 · Agent SDK"]
+```
+
+两个「演进而不改架构」的典型案例：
+
+**案例一：工具家族化（v2.x）。** 版本间最大的变化发生在工具层——`Task` 更名为 `Agent`（旧名保留别名）、`TodoWrite` 让位于 TaskCreate/TaskGet/TaskList/TaskUpdate 四件套、计划模式被工具化为 `EnterPlanMode`/`ExitPlanMode`。学习点：**产品演化优先落在工具语义层**（模型看得见、提示词可教），而不是进程结构层。
+
+**案例二：hooks 从 shell 钩子长成事件总线。** 早期 hooks 是简单的命令钩子；如今是 30+ 生命周期事件（`PreToolUse`、`PostToolUse`、`SessionStart/End`、`Stop`、`SubagentStart/Stop`、`PreCompact`、`PermissionRequest`……）× 五种处理器形态（command / http / MCP 工具 / prompt / agent）。**策略执行被外包给任意基础设施，但仍在同一进程模型内**——用扩展点而非微服务承载演化。
+
+单进程的适用条件同样值得记下：Agent 的每轮循环都高频读写同一份会话状态，跨进程拆分只增加延迟与一致性成本。对照第 13 章（协议化）与第 15 章（彻底 C/S 分离），三种答案没有对错，只有约束不同：Anthropic 优化产品体验的连贯性。
+
+## 14.3 五视角深潜
+
+**① 主循环与思考档位。** 主循环与第 2 章的标准骨架一致（headless 与 SDK 复用同一循环）；特色是**思考预算分级**——用户可切换思考档位（社区流传的 think / ultrathink 关键词即此机制的产品化），简单任务省钱、复杂任务深想。统一伪代码：
+
+```typescript
+// 统一伪代码：Claude Code 循环中的思考档位
+const budget = userThinkingPreference.for(task);        // 低/中/高档位
+while (!task.done) {
+  const response = await model.request({
+    messages: context.messages, tools: context.tools,
+    thinking: { budgetTokens: budget },                  // 可调思考深度（第 6 章）
+  });
+  context.append(response);
+  if (response.stopReason !== "tool_use") break;
+  await executeTools(response.toolCalls);                // 见 ③ 权限管线
+}
+```
+
+**② 工具与上下文。** 工具是六家中最「家族化」的：文件与命令（Bash/PowerShell、Read/Edit/Write、Glob/Grep）、网络（WebFetch/WebSearch）、协作（Agent 子代理派发）、任务管理（TaskCreate 四件套）、计划（EnterPlanMode/ExitPlanMode）等长尾家族。上下文管理的组装流程是它最值得画下来的设计：
 
 ```mermaid
 flowchart TB
-    subgraph proc["单进程"]
-        cli["CLI / IDE / 桌面端（界面层）"]
-        core["核心引擎：主循环 + 上下文管理"]
-        tools["工具家族<br/>Bash·Read·Edit·Write·Glob·Grep<br/>Task 系列·Agent·Skill·WebFetch·WebSearch…"]
-        hooks["Hooks（30+ 生命周期事件）"]
-        sub["子代理（.claude/agents）"]
-        mcp["MCP client"]
-        perm["权限引擎<br/>模式 + 规则 DSL"]
-    end
-    cli --> core
-    core --> tools
-    core --> sub
-    core --> mcp
-    tools --> perm
-    perm --> hooks
-    style proc fill:#f7f7fa
+    sys["系统提示词<br/>（身份/流程/约束）"] --> req["本次请求上下文"]
+    mem["记忆层级注入<br/>托管策略 > ~/.claude/CLAUDE.md ><br/>项目 CLAUDE.md > CLAUDE.local.md<br/>（AGENTS.md 兜底；自动记忆限量载入）"] --> req
+    hist["对话历史<br/>（auto-compact 触发时以摘要替换旧段）"] --> req
+    req --> model["模型"]
+    model -->|"tool_use"| tools["工具执行（权限管线见 ③）"]
+    tools -->|"结果回填"| req
 ```
 
-为什么单体？**低延迟与状态一致性**。Agent 的每轮循环都高频读写同一份会话状态，跨进程拆分只增加复杂度。对比第 13 章（引擎协议化）与第 15 章（彻底 C/S 分离），这是同一问题的三种答案——**没有唯一正确，只有约束不同**：Anthropic 优化产品体验的连贯性，Codex 优化多端复用，OpenCode 优化开放生态。
+四级记忆层级 + 定量载入（自动记忆每会话仅载入前 200 行/25KB）+ 窗口可调的自动压缩 + `/context` 可视化——第 4 章「上下文工程四板斧」在这里全部产品化，甚至把「压缩」变成了用户可见、可操作的命令。经济学上，官方工程复盘的结论直接成为名言：「Prompt caching is everything」。
 
-## 14.3 五视角速查
+**③ 权限与沙箱。** 权限规则 DSL 是六家中表达力最强的设计，匹配逻辑用统一伪代码呈现：
 
-**① 主循环**：标准「模型 ⇄ 工具」循环（headless 与 SDK 复用）；特色是**思考预算分级**——用户可切换思考档位（社区流传的「think / ultrathink」等关键词即此机制的产品化），对应第 6 章推理模型的可调思考深度。
+```typescript
+// 统一伪代码：一次调用的权限裁决（deny → ask → allow）
+function decide(call, rules, mode) {
+  const matched = rules.matching(call);                  // 规则如 Bash(npm run *)、Edit(docs/**)
+  if (matched.some(r => r.effect === "deny"))  return DENY;   // deny 全局优先
+  if (matched.some(r => r.effect === "allow")) return ALLOW;
+  if (mode.defaults.includes(call.kind))       return ALLOW;  // 模式默认（如 acceptEdits 放行编辑）
+  return ASK;                                            // 升级问人
+}
+```
 
-**② 工具**：家族化演进是最大看点：`Bash`/`PowerShell`、`Read`/`Edit`/`Write`、`Glob`/`Grep`、`WebFetch`/`WebSearch`、`NotebookEdit`；`Agent`（由 `Task` 更名）派发子代理；TaskCreate/TaskGet/TaskList/TaskUpdate 系列（取代早期 `TodoWrite`）承载结构化任务管理（第 6 章）；`EnterPlanMode`/`ExitPlanMode` 把计划模式做成显式工具（第 6.5 节）；还有 `Workflow`（多子代理工作流）、`LSP`、`SendMessage`、定时任务等长尾。工具数量与职责边界随版本快速演进，是最能体现「产品在原理框架内做加法」的地方。
+求值顺序 deny → ask → allow，企业托管策略跨层胜出；模式（default / acceptEdits / plan / auto / dontAsk / bypassPermissions）整体换挡默认值。OS 级隔离由 `/sandbox` 提供（macOS Seatbelt / Linux bubblewrap + 网络代理白名单）——第 8 章三态模型的出处级实现。
 
-**③ 上下文**：教科书级的全量实践——
+**④ 扩展。** hooks（事件 × 五形态处理器，见 14.2）、子代理（`.claude/agents/` 下 Markdown+YAML 定义，嵌套与并发有上限——影响半径递减）、Skills（`.claude/skills/`，遵循 agentskills.io 开放标准，渐进披露）、MCP 与 Plugins（把 skills+hooks+subagents+MCP 打包分发）。
 
-- **记忆文件四级层级**：托管策略 > 用户级（`~/.claude/CLAUDE.md`）> 项目级（`./CLAUDE.md`）> 本地（`CLAUDE.local.md`），支持 `@path` 导入与按路径条件的规则片段；`AGENTS.md` 作为兜底约定；
-- **自动记忆**：自动写至用户目录的项目记忆文件，每次会话限量载入（防止记忆膨胀反噬上下文——第 4 章「收比放难」的直接体现）；
-- **压缩**：auto-compact 窗口可调，`/compact <指令>` 定向摘要（保留什么由指令控制），`/context` 命令可视化当前占用——把「上下文工程」变成了用户可见、可操作的产品功能；
-- **经济学**：官方工程复盘的结论直白到成为名言——「**Prompt caching is everything**」（第 4.6 节的原则在此成为第一定律）。
+**⑤ 概念对照。**
 
-**④ 权限与沙箱**：第 8 章三态模型的出处级实现——模式（default / acceptEdits / plan / auto / dontAsk / bypassPermissions）+ 规则 DSL（`Bash(npm run *)`、`Edit(docs/**)`、`WebFetch(domain:...)`），求值顺序 deny → ask → allow，企业托管策略全局胜出；OS 级隔离由 `/sandbox` 提供（macOS Seatbelt / Linux bubblewrap + 网络代理白名单）。
-
-**⑤ 扩展**：可能是全行业最丰富的扩展面——
-
-- **Hooks**：30+ 生命周期事件（`PreToolUse`、`PostToolUse`、`SessionStart/End`、`Stop`、`SubagentStart/Stop`、`PreCompact`、`PermissionRequest`……），处理器五种形态（command / http / MCP 工具 / prompt / agent）——把「策略执行」从 CLI 进程外包给任意基础设施，这是第 7.8 节护栏层的产品化极致；
-- **子代理**：`.claude/agents/` 下 Markdown+YAML 定义（name/description/tools/model/权限模式），默认嵌套与并发都有上限——影响半径递减原则（第 9.2 节）的落地；
-- **Skills**：`.claude/skills/<name>/SKILL.md`，遵循 agentskills.io 开放标准（第 11.4 节的渐进披露）；
-- **MCP** 与 **Plugins**（把 skills+hooks+subagents+MCP 打包分发）。
+| Claude Code 术语 | 本书概念 | 原理章节 |
+|---|---|---|
+| CLAUDE.md（四级层级） | 项目/用户记忆文件 | 第 5 章 |
+| auto-compact / /compact | 压缩（compaction） | 第 4 章 |
+| Agent 工具（旧名 Task） | 编排工具（子代理派发） | 第 3、9 章 |
+| .claude/agents | 子代理定义 | 第 9 章 |
+| TaskCreate/Get/List/Update | todo 计划工具 | 第 6 章 |
+| plan mode（Enter/ExitPlanMode） | 计划模式 | 第 6 章 |
+| permission rules（Tool(specifier)） | 权限规则表 | 第 8 章 |
+| permission modes | 权限模式（默认值换挡） | 第 8 章 |
+| hooks（PreToolUse 等） | 生命周期钩子 / 护栏挂点 | 第 7 章 |
+| Skills（渐进披露） | 技能包 | 第 11 章 |
+| think / ultrathink | 可调思考深度 | 第 6 章 |
+| claude -p / Agent SDK | headless 非交互模式 | 第 2 章 |
 
 ## 14.4 工程亮点小结
 
-1. **单体架构的坚持**：产品连贯性优先于架构时尚，适合「状态高度共享」的 Agent 本质。
-2. **权限规则 DSL**：gitignore 风格的模式匹配 + deny 优先 + 分层配置，成为行业模仿对象。
-3. **Hooks 的泛化**：从 shell 钩子长成五形态事件总线，安全与定制都不再依赖修改产品本体。
-4. **渐进披露的记忆/技能体系**：四级记忆 + 定量载入 + 按需加载，对「指令膨胀」这个 Agent 产品特有疾病的系统治疗。
+1. **单体架构的坚持**：产品连贯性优先于架构时尚；演化走扩展点而非拆服务。
+2. **权限规则 DSL**：gitignore 风格模式匹配 + deny 优先 + 分层配置，行业模仿对象。
+3. **hooks 的泛化**：从 shell 钩子长成五形态事件总线，策略执行外包而不失控。
+4. **渐进披露的记忆/技能体系**：四级记忆 + 定量载入 + 按需加载，系统治疗「指令膨胀」。
 
-## 14.5 回扣第一部分
+## 14.5 与第一部分的呼应
 
 | 原理概念 | Claude Code 中的形态 |
 |---|---|
 | 主循环（第 2 章） | 单进程循环，headless/SDK 复用 |
-| 工具（第 3 章） | 家族化工具 + Task 计划工具族 |
+| 工具（第 3 章） | 家族化工具 + Task 任务族 |
 | 上下文四板斧（第 4 章） | 四级记忆 + auto-compact + /context |
 | 指令分层（第 5 章） | 系统提示词 / CLAUDE.md / 用户消息 |
-| 规划（第 6 章） | 计划模式工具化 + 任务管理工具族 |
+| 规划（第 6 章） | 计划模式工具化 + 任务管理族 |
 | 权限三态（第 8 章） | 模式 + 规则 DSL + /sandbox |
 | 子代理（第 9 章） | .claude/agents + Agent 工具 |
 | 护栏（第 7 章） | hooks 事件总线 |
@@ -77,5 +116,5 @@ flowchart TB
 ## 14.6 延伸阅读
 
 - 官方文档：<https://code.claude.com/docs>（tools、permissions、hooks、memory、sub-agents、skills、best-practices 各页）
-- 工程复盘：《How we built Claude Code auto mode》、《Lessons from building Claude Code: Prompt caching is everything》（Anthropic Engineering，2026）
-- 访谈：Boris Cherny《How We Built Claude Code》（单体架构决策的第一手陈述）
+- 版本跟踪：npm [`@anthropic-ai/claude-code`](https://www.npmjs.com/package/@anthropic-ai/claude-code)
+- 工程复盘：《How we built Claude Code auto mode》、《Lessons from building Claude Code: Prompt caching is everything》（Anthropic Engineering，2026）；访谈《How We Built Claude Code》
