@@ -2,6 +2,14 @@
 
 全书事实与引文的来源汇总（按主题分组）。链接以 2026-10 可访问为准；文档类链接请优先看官方最新版。
 
+## 同类读物与课程（延伸）
+
+- 李博杰《深入理解 AI Agent：设计原理与工程实践》（开源免费，「动手实现」路线）：<https://github.com/bojieli/ai-agent-book>
+- 黄佳《Claude Code 实战：Harness 工程之道》（人民邮电出版社，2026，单实现深度剖析）
+- Chip Huyen《AI Engineering》（O'Reilly，2025；中译本《AI 工程》，2026）：<https://www.oreilly.com/library/view/ai-engineering/9781098166298/>
+- Datawhale Hello-Agents（免费中文教程，从零构建智能体）：<https://github.com/datawhalechina/hello-agents>
+- HuggingFace Agents Course（免费课程）：<https://huggingface.co/learn/agents-course>
+
 ## 方法论与工程原则（第一部分主干）
 
 - Anthropic《Building Effective Agents》——workflow/agent 定义、五种模式：<https://www.anthropic.com/research/building-effective-agents>
