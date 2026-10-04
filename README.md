@@ -31,6 +31,17 @@ mdbook build          # 产出静态站点到 book/，可直接部署
 依赖：mdBook ≥ 0.5（`cargo install mdbook` 或 `brew install mdbook`）。**不需要** 安装
 `mdbook-mermaid` 等预处理器。
 
+## 发布（GitHub Pages）
+
+本书发布于 <https://chongyi.github.io/deep-dive-agents/>（仓库：<https://github.com/chongyi/deep-dive-agents>）。
+
+发布是全自动的：`.github/workflows/deploy.yml` 在每次 push 到 `main` 时触发——
+CI 下载 mdbook 0.5.4 预编译二进制、`mdbook build`、经官方 Pages 动作部署。
+由于本书零预处理器依赖（mermaid 与告示框均为仓库内置的客户端方案），CI 无需
+Rust 工具链，一次构建约一分钟。
+
+日常流程：改稿 → `mdbook serve` 本地预览 → 提交并 `git push` → 线上自动更新。
+
 ## mermaid 图表方案
 
 书稿直接使用标准 Markdown 围栏：

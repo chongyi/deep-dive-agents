@@ -13,6 +13,10 @@ use-default-preprocessors = true
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
+# 托管在 GitHub Pages 子路径下（https://chongyi.github.io/deep-dive-agents/），
+# site-url 必须与之一致，否则搜索与静态资源路径会错
+site-url = "/deep-dive-agents/"
+git-repository-url = "https://github.com/chongyi/deep-dive-agents"
 # mdBook 0.5 特性：GFM 提示框（> [!NOTE] / [!WARNING] 等）与定义列表
 admonitions = true
 definition-lists = true
