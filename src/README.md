@@ -78,5 +78,5 @@ flowchart TB
 
 - **勘误**：发现错别字、事实错误或失效链接，欢迎[提交 Issue](https://github.com/chongyi/deep-dive-agents/issues) 指出；错字、断链这类小改动，也欢迎直接提 Pull Request，通常会被很快合并。
 - **共建**：新增章节、调整结构等较大改动，建议先开 Issue 说明动机与大致方案，达成一致后再动笔，避免返工。
-- **提交前**：请先阅读仓库 README 的「写作约定」（术语以附录 A 为准、加粗与全角标点的注意事项、mermaid 图表写法等），并在本地 `mdbook serve` 预览确认渲染无误后再提交。
+- **提交前**：请先阅读仓库的 [CONTRIBUTING.md](https://github.com/chongyi/deep-dive-agents/blob/main/CONTRIBUTING.md)（写作约定、本地预览与构建细节），并在 `mdbook serve` 预览确认渲染无误后再提交。
 - **许可**：本书内容与仓库代码均以 MIT 协议发布（见仓库 `LICENSE`），引用与转载请保留署名。
