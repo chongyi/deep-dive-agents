@@ -1,7 +1,7 @@
 [book]
 title = "深入浅出 Agent"
 authors = ["wenshi-agent-project"]
-description = "从零理解 Agent 的构造，并以主流开源实现印证设计取舍"
+description = "从零理解 Agent 的构造，以主流开源实现印证设计取舍，并延伸到递归自我改进（RSI）的边界"
 src = "src"
 language = "zh-CN"
 

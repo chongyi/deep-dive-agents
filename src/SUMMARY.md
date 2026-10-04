@@ -26,6 +26,12 @@
 - [DeepSeek Harness：万物皆插件的微内核运行时](part2/ch17-deepseek-harness.md)
 - [横向对比：共性、分歧与取舍](part2/ch18-comparison.md)
 
+# 第三部分：自我改进的 Agent
+
+- [RSI：概念、分层与现实](part3/ch19-rsi-concepts.md)
+- [harness 级自我改进的工程学](part3/ch20-harness-level-rsi.md)
+- [训练级自我改进与边界](part3/ch21-training-level-rsi.md)
+
 # 附录
 
 - [附录 A：术语表](appendix/glossary.md)

@@ -51,6 +51,16 @@
 - Gabriel Chua《How I think about Codex》（2026-02，"Model + Harness + Surfaces"）：<https://simonwillison.net/2026/Feb/22/how-i-think-about-codex/>
 - EleutherAI lm-evaluation-harness（术语进入 LLM 世界的起点，2021）：<https://github.com/EleutherAI/lm-evaluation-harness>
 
+## 递归自我改进 RSI（第三部分）
+
+- 思想源头：I.J. Good《Speculations Concerning the First Ultraintelligent Machine》（1965）；Schmidhuber《Gödel Machines》（2003）：<https://arxiv.org/abs/cs/0309048>
+- 指令层：OPRO <https://arxiv.org/abs/2309.03409>；DSPy <https://arxiv.org/abs/2310.03714>；GEPA <https://arxiv.org/abs/2507.19457>
+- 程序层：Voyager <https://arxiv.org/abs/2305.16291>；Darwin Gödel Machine <https://arxiv.org/abs/2505.22954>（项目页 <https://sakana.ai/dgm>）；AlphaEvolve <https://arxiv.org/abs/2506.13131>；Gödel Agent <https://arxiv.org/abs/2501.09686>
+- 训练层：SEAL <https://arxiv.org/abs/2506.10943>；Absolute Zero <https://arxiv.org/abs/2505.03335>；R-Zero <https://arxiv.org/abs/2504.13586>
+- 独立测量：METR《Measuring AI Ability to Complete Long Tasks》<https://arxiv.org/abs/2503.14499>（博客版 <https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/>）；METR 资深开发者 RCT（2025-07，-19%）
+- 机构披露与观点（自述口径需注明）：Anthropic《When AI Builds Itself》（2026-06）与 R&D Automation Index（2026-09）；Altman《The Gentle Singularity》（2025-06）：<https://blog.samaltman.com/the-gentle-singularity>；《AI 2027》情景报告 <https://ai-2027.com> 及 LessWrong/Reflective Altruism 的逐条批评；Epoch AI《The case for multi-decade AI timelines》（2025-04）
+- 安全框架与法律：OpenAI Preparedness Framework v2（Critical 定义为 recursively self-improving / fully automated AI R&D）；Anthropic RSP <https://www.anthropic.com/responsible-scaling>；DeepMind Frontier Safety Framework；加州 SB 53（2025-09）
+
 ## 第二部分各项目官方入口
 
 | 项目 | 仓库 | 文档 |
