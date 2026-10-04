@@ -33,8 +33,8 @@ flowchart TB
     p1 --> d["系统级：多 Agent / 评估 / 生态<br/>第 9–11 章"]
 
     p2 --> e["方法论：五个视角<br/>第 12 章"]
-    p2 --> f["逐个剖析：Codex CLI / Claude Code<br/>OpenCode / Gemini CLI / Aider<br/>第 13–16 章"]
-    p2 --> g["横向对比与设计取舍<br/>第 17 章"]
+    p2 --> f["逐个剖析：Codex CLI / Claude Code<br/>OpenCode / Gemini CLI / Aider<br/>DeepSeek Harness<br/>第 13–17 章"]
+    p2 --> g["横向对比与设计取舍<br/>第 18 章"]
 
     c -.概念回扣.-> f
     b -.概念回扣.-> f
@@ -43,7 +43,7 @@ flowchart TB
 
 **第一部分（第 1–11 章）** 与任何具体产品无关：它从「LLM 为什么需要工具」讲起，用一章一个主题的方式，把一个最小 Agent 逐步扩展成具备规划、安全护栏、多 Agent 协作和评估体系的完整系统。每一章都可以独立成篇，但按顺序阅读会获得一条清晰的主线。
 
-**第二部分（第 12–17 章）** 用第一部分建立的概念去拆解真实项目：OpenAI 的 Codex CLI、Anthropic 的 Claude Code、OpenCode、Gemini CLI 与 Aider。剖析不满足于罗列功能，而是始终回答同一个问题——*它们分别把第一部分里的哪些机制做到了什么程度，为什么这样取舍？*
+**第二部分（第 12–18 章）** 用第一部分建立的概念去拆解真实项目：OpenAI 的 Codex CLI、Anthropic 的 Claude Code、OpenCode、Gemini CLI、Aider 与 DeepSeek Harness。这六种实现在业界有个统一的名字——**harness**（第 12 章解释这个术语为什么重要）。剖析不满足于罗列功能，而是始终回答同一个问题——*它们分别把第一部分里的哪些机制做到了什么程度，为什么这样取舍？*
 
 ## 怎么读这本书
 

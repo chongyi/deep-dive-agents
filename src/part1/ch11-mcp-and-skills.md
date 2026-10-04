@@ -129,4 +129,4 @@ flowchart TB
 - Skills 封装「方法与资产」，靠**渐进披露**控制常驻成本；与 MCP 一纵一横，互为补充。
 - 加能力四条路：内置、MCP、Skill、自定义——按复用范围与上下文成本选。
 
-原理讲完。接下来是验证时刻：**这十一章的每一件武器，都会在 Codex CLI、Claude Code、OpenCode、Gemini CLI 与 Aider 的源码与文档里一一现身。**
+原理讲完。接下来是验证时刻：**这十一章的每一件武器，都会在 Codex CLI、Claude Code、OpenCode、Gemini CLI、Aider 与 DeepSeek Harness 的源码与文档里一一现身。**

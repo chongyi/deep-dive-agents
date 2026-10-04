@@ -1,6 +1,6 @@
 # 深入浅出 Agent（书稿）
 
-一本面向「完全没写过 Agent 的工程师」的书：第一部分从最小的 Agent 循环出发，由浅入深搭建对 Agent 的完整心智模型；第二部分用这套模型剖析 Codex CLI、Claude Code、OpenCode、Gemini CLI、Aider 等主流开源实现的设计取舍。
+一本面向「完全没写过 Agent 的工程师」的书：第一部分从最小的 Agent 循环出发，由浅入深搭建对 Agent 的完整心智模型；第二部分用这套模型剖析 Codex CLI、Claude Code、OpenCode、Gemini CLI、Aider、DeepSeek Harness 等主流开源实现的设计取舍。
 
 基于 [mdBook](https://rust-lang.github.io/mdBook/) 编写，目录为 `src/`，构建产物在 `book/`。
 

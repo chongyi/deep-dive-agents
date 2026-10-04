@@ -10,6 +10,7 @@
 | 工作流 | Workflow | LLM 与工具沿预定义代码路径编排的系统 |
 | 智能体系统 | agentic system | Workflow 与 Agent 的统称 |
 | 增强型 LLM | augmented LLM | 加上检索、工具与记忆的 LLM（Anthropic 术语） |
+| 挽具 | harness | 模型之外的全部外围工程系统（循环、工具、上下文、护栏等）；「Agent = Model + Harness」。中文写作通常保留英文，区别于脚手架（scaffold）与框架（framework） |
 | 主循环 | agent loop | 模型 → 工具 → 观察 → 再请求的往复循环 |
 | 轮 | turn | 一轮「模型调用 + 工具执行」的迭代 |
 | 工具调用 / 函数调用 | tool calling / function calling | 模型以结构化参数申请调用外部函数的机制 |

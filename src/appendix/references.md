@@ -44,6 +44,13 @@
 - OpenTelemetry GenAI 语义约定（agent span、MCP 约定）：<https://opentelemetry.io/docs/specs/semconv/gen-ai/>
 - 语义约定专用仓库：<https://github.com/open-telemetry/semantic-conventions-genai>
 
+## harness 术语与工程范式（第 12 章）
+
+- Simon Willison《How coding agents work》（Agentic Engineering Patterns 指南，2026-03）：<https://simonwillison.net/guides/agentic-engineering-patterns/how-coding-agents-work/>
+- Addy Osmani《Agent Harness Engineering》（2026-04）：<https://addyosmani.com/blog/agent-harness-engineering/>
+- Gabriel Chua《How I think about Codex》（2026-02，"Model + Harness + Surfaces"）：<https://simonwillison.net/2026/Feb/22/how-i-think-about-codex/>
+- EleutherAI lm-evaluation-harness（术语进入 LLM 世界的起点，2021）：<https://github.com/EleutherAI/lm-evaluation-harness>
+
 ## 第二部分各项目官方入口
 
 | 项目 | 仓库 | 文档 |
@@ -53,12 +60,14 @@
 | OpenCode | <https://github.com/sst/opencode> | <https://opencode.ai/docs> |
 | Gemini CLI | <https://github.com/google-gemini/gemini-cli> | <https://google-gemini.github.io/gemini-cli/docs/> |
 | Aider | <https://github.com/Aider-AI/aider> | <https://aider.chat/docs> |
+| DeepSeek Harness | <https://github.com/deepseek-ai/deepseek-harness> | <https://deepseek-harness.github.io/deepseek-harness/>（另见产品页 <https://www.deepseek.com/harness> 与 Cordis 论文 arXiv:2608.25512） |
 
 其他被引用的深度阅读：
 
 - InfoQ《Another Rust Rewrite: OpenAI's Codex CLI Goes Native》（2025-06）
 - Baseten 播客《Building AI agents, open code, and open source》（Dax Raad，2025-10）
 - cefboud.com《How Coding Agents Actually Work: Inside OpenCode》（2025-09）
+- KDnuggets《What I've Learned About DeepSeek Harness》（2026-09）；Developers Digest《We Read DeepSeek Harness: What 453K Lines of Agent Runtime Actually Say》（2026-08）
 - Boris Cherny《How We Built Claude Code》访谈；Anthropic Engineering《How we built Claude Code auto mode》《Lessons from building Claude Code: Prompt caching is everything》（2026）
 - Aider 博客：《Separating code reasoning and editing》（2024-09）、repo map 构造（2023-10）、edit formats / leaderboard 文档
 - 简介级参考：Factory Droid（<https://docs.factory.com>）、Charm Crush（<https://github.com/charmbracelet/crush>）、Cline、Block Goose（<https://github.com/block/goose>）、HuggingFace smolagents（<https://github.com/huggingface/smolagents>）

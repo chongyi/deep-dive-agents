@@ -23,7 +23,8 @@
 - [Claude Code：产品化 Agent 的范本](part2/ch14-claude-code.md)
 - [OpenCode：客户端/服务端分离](part2/ch15-opencode.md)
 - [Gemini CLI 与 Aider：自主性的两个极端](part2/ch16-gemini-cli-and-aider.md)
-- [横向对比：共性、分歧与取舍](part2/ch17-comparison.md)
+- [DeepSeek Harness：万物皆插件的微内核运行时](part2/ch17-deepseek-harness.md)
+- [横向对比：共性、分歧与取舍](part2/ch18-comparison.md)
 
 # 附录
 
