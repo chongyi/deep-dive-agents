@@ -73,7 +73,7 @@ flowchart TB
 
 - **单 Agent**：默认选择。OpenAI 的建议是复杂度线性增长后再拆分——过早拆分只会引入协调成本。
 - **Manager（编排器-执行器）**：中央 Agent 把子 Agent 当工具调用（第 7.5 节），保留全部控制权。Claude Code 的 `Agent` 工具、Anthropic 研究系统的 lead-subagent 都是此型。
-- **去中心化（decentralized）**：同层 Agent 之间通过**移交（handoff）**转交对话控制权——客服场景「接线员转专家」的自然映射，OpenAI Agents SDK 把 handoff 做成了一等原语。没有中央大脑，灵活性最高，可控性最低。
+- **去中心化（decentralized）**：同层 Agent 之间通过**移交**（handoff）转交对话控制权——客服场景「接线员转专家」的自然映射，OpenAI Agents SDK 把 handoff 做成了一等原语。没有中央大脑，灵活性最高，可控性最低。
 
 ## 9.4 实证：Anthropic 多 Agent 研究系统的数字
 

@@ -1,6 +1,6 @@
 # 第 14 章 Claude Code：产品化 Agent 的范本
 
-> 本章解剖 Anthropic 的 Claude Code。如果说 Codex 展示了「系统工程派」的上限，Claude Code 展示的就是**「产品打磨派」**的上限：一个单进程应用，把第 1 章公式的每个部件都打磨出行业模仿对象——权限规则 DSL、hooks 事件体系、渐进披露的 Skills。（事实口径：截至 2026-10；Claude Code 为 source-available 而非开源，剖析基于官方文档与工程复盘）
+> 本章解剖 Anthropic 的 Claude Code。如果说 Codex 展示了「系统工程派」的上限，Claude Code 展示的就是「**产品打磨派**」的上限：一个单进程应用，把第 1 章公式的每个部件都打磨出行业模仿对象——权限规则 DSL、hooks 事件体系、渐进披露的 Skills。（事实口径：截至 2026-10；Claude Code 为 source-available 而非开源，剖析基于官方文档与工程复盘）
 
 ## 14.1 定位与历史
 

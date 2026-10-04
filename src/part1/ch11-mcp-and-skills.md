@@ -4,7 +4,7 @@
 
 ## 11.1 M×N 集成困境
 
-没有标准时，M 个 AI 应用接 N 个外部系统要写 M×N 份胶水代码。2024 年 11 月，Anthropic 开源了 **MCP（Model Context Protocol，模型上下文协议）**来把 M×N 压成 M+N：工具提供方实现一次 MCP server，应用方实现一次 MCP client，即可互通。官方的比喻广为流传——**「AI 应用的 USB-C 接口」**。
+没有标准时，M 个 AI 应用接 N 个外部系统要写 M×N 份胶水代码。2024 年 11 月，Anthropic 开源了 **MCP**（Model Context Protocol，模型上下文协议）来把 M×N 压成 M+N：工具提供方实现一次 MCP server，应用方实现一次 MCP client，即可互通。官方的比喻广为流传——**「AI 应用的 USB-C 接口」**。
 
 MCP 的中立化进程很快：2025 年 12 月与 Agent Skills、AGENTS.md 等一并捐入 Linux Foundation 旗下基金会，由中立组织治理；官方 registry（注册表）上线后，发现与分发 MCP server 也有了公共入口。截至 2026 年，主流编码工具（Claude 系、Codex、OpenCode、Gemini CLI、Cursor、VS Code……）全部支持 MCP，「写一次、处处接入」已是现实。
 
