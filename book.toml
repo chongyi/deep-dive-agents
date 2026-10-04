@@ -20,8 +20,10 @@ smart-punctuation = false
 no-section-label = false
 # mermaid 渲染方案：不使用 mdbook-mermaid 预处理器，
 # 直接内置 mermaid.min.js（12.1.0）+ 自写加载脚本，在浏览器端渲染 ```mermaid 代码块
+# 告示框方案：mdBook 0.5 不支持「[!NOTE] 标题」写法（上游 #2975/#3031 未实现），
+# admonition-loader.js 在浏览器端将其改写为原生同构结构（复用内置类名/图标/样式）
 additional-css = ["custom.css"]
-additional-js = ["mermaid.min.js", "mermaid-loader.js"]
+additional-js = ["mermaid.min.js", "mermaid-loader.js", "admonition-loader.js"]
 
 [output.html.fold]
 enable = true
