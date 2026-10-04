@@ -90,3 +90,7 @@ mdBook 0.5 的原生告示框要求标记独占一行，标记后带文字时整
 ```bash
 git log --oneline   # 查看书稿修订历史
 ```
+
+## 许可
+
+本仓库（书稿内容与附带脚本）以 [MIT](./LICENSE) 协议发布；内置的 mermaid.min.js 亦为 MIT（版权归 mermaid 项目）。引用与转载请保留署名。
