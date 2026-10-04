@@ -8,7 +8,7 @@
 
 2025 年 6 月开源（Apache-2.0）的 TypeScript 终端 Agent，主打「登录 Google 账号即免费用」。monorepo 分 `packages/cli`（终端前端）与 `packages/core`（API 客户端、工具注册执行、会话状态）——**库级前后端分离**：同 core 可接不同前端，但不做 OpenCode 式的跨进程服务。
 
-### 五透镜速览
+### 五视角速览
 
 - **主循环/工具**：标准循环；工具集与同类一致（`run_shell_command`、`read_file`、`write_file`、`edit`、`glob`、`grep` 类检索、`web_fetch`、`google_web_search`、`save_memory`），支持参数级禁用（如 `run_shell_command(rm -rf)`）。
 - **上下文**：`GEMINI.md` 三级层级（全局/项目/子目录，`@path` 导入），`contextFileName` 可改名——**兼容 AGENTS.md** 的实现方式；`save_memory` 工具把事实追加进全局记忆文件（记忆=第 4 章笔记策略 + 一等工具）；checkpoint 机制保存/恢复会话状态（可逆性）。

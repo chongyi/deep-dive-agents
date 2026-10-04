@@ -1,6 +1,6 @@
 # 第 13 章 Codex CLI：Rust 内核与协议化前端
 
-> 本章用第 12 章的五个透镜解剖 OpenAI Codex CLI。它是「**用系统工程的严肃态度对待 Agent 安全**」的代表：Rust 重写换取内核级沙箱，JSON-RPC 协议换取引擎与界面解耦。（事实口径：截至 2026-10）
+> 本章用第 12 章的五个视角解剖 OpenAI Codex CLI。它是「**用系统工程的严肃态度对待 Agent 安全**」的代表：Rust 重写换取内核级沙箱，JSON-RPC 协议换取引擎与界面解耦。（事实口径：截至 2026-10）
 
 ## 13.1 定位与历史
 
@@ -53,7 +53,7 @@ flowchart TB
 - **app-server 协议**：引擎通过 JSON-RPC 暴露 `thread/start`、`thread/resume`、`turn/start`、`model/list` 等方法，TUI、exec、IDE、Desktop 全是协议客户端。「Agent 引擎即服务」让 CLI 产品自然长成多端形态——这是第 15 章 OpenCode「Agent 即 HTTP 服务」思想的同源设计。
 - **rollout 持久化**：会话以 rollout 文件落盘，`codex resume` 可恢复，`codex exec` 可重放——轨迹（第 10 章）在这里是一等公民。
 
-## 13.3 五透镜速查
+## 13.3 五视角速查
 
 **① 主循环**：`codex-core` 中执行「模型 → 工具调用 → 审批/沙箱执行 → 结果回填」的轮次循环；非交互模式（`codex exec`）复用同一循环，便于 CI 与评估。
 

@@ -18,7 +18,7 @@
 
 # 第二部分：主流开源 Agent 剖析
 
-- [剖析方法论：五个透镜读源码](part2/ch12-how-to-read-an-agent.md)
+- [剖析方法论：五个视角读源码](part2/ch12-how-to-read-an-agent.md)
 - [Codex CLI：Rust 内核与协议化前端](part2/ch13-codex-cli.md)
 - [Claude Code：产品化 Agent 的范本](part2/ch14-claude-code.md)
 - [OpenCode：客户端/服务端分离](part2/ch15-opencode.md)
