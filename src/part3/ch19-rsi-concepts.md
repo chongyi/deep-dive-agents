@@ -47,7 +47,7 @@ flowchart LR
 - **训练级**：修改 M，而且往往是用 H 来生产改进 M 所需的数据与代码（第 21 章）；
 - 各实验室安全框架中的「AI R&D」阈值，本质上是**给「模型 × harness」复合体设定的能力红线**。
 
-这条主线并非纯粹类比，已有公开样本：Anthropic 自述 Claude 写下了其仓库中超过 80% 的合并代码（2026 年官方口径，实验室自述）；AlphaEvolve 改进了 Gemini 训练所用的矩阵乘 kernel（训练提速 23%、总时长降约 1%）；DeepSeek 用 agent 开发 agent 产品（第 17 章）。「模型写 harness、harness 放大模型」的闭环，已经存在——只是离 Good 设想的全自动循环还有距离（第 21 章给证据的两面）。
+这条主线并非纯粹类比，已有公开样本：Anthropic 自述 Claude 写下了其仓库中超过 80% 的合并代码（2026 年官方披露，实验室自述）；AlphaEvolve 改进了 Gemini 训练所用的矩阵乘 kernel（训练提速 23%、总时长降约 1%）；DeepSeek 用 agent 开发 agent 产品（第 17 章）。「模型写 harness、harness 放大模型」的闭环，已经存在——只是离 Good 设想的全自动循环还有距离（第 21 章给证据的两面）。
 
 ## 19.5 小结
 

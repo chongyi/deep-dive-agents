@@ -1,6 +1,6 @@
 # 第 14 章 Claude Code：产品化 Agent 的范本
 
-> 本章解剖 Anthropic 的 Claude Code。如果说 Codex 展示了「系统工程派」的上限，Claude Code 展示的就是「**产品打磨派**」的上限：一个单进程应用，把第 1 章公式的每个部件都打磨出行业模仿对象——权限规则 DSL、hooks 事件体系、渐进披露的 Skills。（事实口径：截至 2026-10；Claude Code 为 source-available 而非开源，剖析基于官方文档与工程复盘）
+> 本章解剖 Anthropic 的 Claude Code。如果说 Codex 展示了「系统工程派」的上限，Claude Code 展示的就是「**产品打磨派**」的上限：一个单进程应用，把第 1 章公式的每个部件都打磨出行业模仿对象——权限规则 DSL、hooks 事件体系、渐进披露的 Skills。（内容截至 2026-10；Claude Code 为 source-available 而非开源，剖析基于官方文档与工程复盘）
 
 ## 14.1 定位与历史
 
@@ -10,7 +10,7 @@
 
 **版本锚定**：本章锚定 **stable 通道 2.1.285**（2026-09-29；latest/next 通道已至 2.1.289）。Claude Code 走高频 npm 发版（每周多个），`stable / latest / next` 三条通道并行——版本跟踪看 [npm](https://www.npmjs.com/package/@anthropic-ai/claude-code)。
 
-Claude Code 的架构演进是一个**反直觉的样本：主架构从未改变**。创建者 Boris Cherny 在访谈中确认了这个决策——自始至终是**单进程 TypeScript 应用**，CLI、IDE 扩展、桌面端共享同一内核。真正值得学的是：**架构不变，能力靠扩展点生长**——
+Claude Code 的架构演进是一个**反直觉的案例：主架构从未改变**。创建者 Boris Cherny 在访谈中确认了这个决策——自始至终是**单进程 TypeScript 应用**，CLI、IDE 扩展、桌面端共享同一内核。真正值得学的是：**架构不变，能力靠扩展点生长**——
 
 ```mermaid
 flowchart LR
@@ -27,7 +27,7 @@ flowchart LR
 
 单进程的适用条件同样值得记下：Agent 的每轮循环都高频读写同一份会话状态，跨进程拆分只增加延迟与一致性成本。对照第 13 章（协议化）与第 15 章（彻底 C/S 分离），三种答案没有对错，只有约束不同：Anthropic 优化产品体验的连贯性。
 
-## 14.3 五视角深潜
+## 14.3 五视角拆解
 
 **① 主循环与思考档位。** 主循环与第 2 章的标准骨架一致（headless 与 SDK 复用同一循环）；特色是**思考预算分级**——用户可切换思考档位（社区流传的 think / ultrathink 关键词即此机制的产品化），简单任务省钱、复杂任务深想。统一伪代码：
 

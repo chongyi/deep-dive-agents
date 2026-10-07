@@ -21,7 +21,7 @@
 > **Agent = 模型 + 工具 + 循环 + 上下文 + 护栏**
 
 - **深入浅出**：从 50 行代码的最小 Agent 循环起步，逐章扩展到规划、工作流、安全、多 Agent 与评估——原理部分与具体产品无关；
-- **有据可查**：六个主流开源实现（Codex CLI、Claude Code、OpenCode、Gemini CLI、Aider、DeepSeek Harness）按统一的「五个视角」逐一解剖，事实口径截至 2026-10 并注明来源；
+- **有据可查**：六个主流开源实现（Codex CLI、Claude Code、OpenCode、Gemini CLI、Aider、DeepSeek Harness）按统一的「五个视角」逐一解剖，内容截至 2026-10 并注明来源；
 - **前沿不泡沫**：完整讲解 harness（挽具）与 RSI（递归自我改进）两个热词的工程本质；
 - **图胜千言**：40 张 mermaid 图（架构/时序/流程），随源码版本化、可修改。
 

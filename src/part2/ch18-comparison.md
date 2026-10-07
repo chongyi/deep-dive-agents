@@ -15,7 +15,7 @@
 | 上下文策略 | rollout 持久化 + 压缩演进 | auto-compact + /compact + /context | 内部 compaction/summary agent | 记忆工具 + checkpoint | repo map（约 1k token） | 日志即真相 + 可选 compaction 缝 |
 | 权限默认 | 按档位，问得多 | 默认逐项询问 | **默认全放行** | 确认 + 免确认清单 | 无审批，git 兜底 | ask 默认 · fail-closed，预设仅两档 |
 | 沙箱 | 内核级（Seatbelt / Landlock+seccomp） | /sandbox（Seatbelt / bubblewrap + 网络代理） | 无（交给用户环境） | 容器（Docker/Podman）+ Seatbelt | 无（可逆性代替隔离） | 原生内核级（bwrap/Landlock · Seatbelt · Win ACL，无 Docker） |
-| 子代理 / 多 Agent | 有（subagent、hooks 事件） | Agent 工具 + .claude/agents（嵌套/并发受限） | 内置角色 agent + 自定义 | 无重点 | 无（哲学排斥） | provider 化（spawn/fork，可委派竞品 CLI） |
+| 子代理 / 多 Agent | 有（subagent、hooks 事件） | Agent 工具 + .claude/agents（嵌套/并发受限） | 内置角色 agent + 自定义 | 无重点 | 无（刻意不做） | provider 化（spawn/fork，可委派竞品 CLI） |
 | 扩展机制 | MCP（双向）+ hooks/skills | MCP + hooks + skills + plugins | MCP + JS 插件 + ACP | MCP + Extensions（三合一包） | lint/test 钩子 | 万物皆插件 + MCP + 分层 Skills |
 | 独门绝技 | 沙箱×审批正交双旋钮 | 权限规则 DSL + hooks 泛化 | OpenAPI 契约 + fork/revert | Extensions + 免费层 | repo map + edit formats + benchmark | 微内核 Cordis · 日志即真相 · harness 变体跑分 |
 
@@ -43,7 +43,7 @@
 
 **④ 自主性刻度。** Aider 证明了「收窄自主性」可以是一种竞争力：对可枚举的任务，受约束协议在可靠性、成本、可审计上全面占优。自主性是旋钮，不是方向。
 
-**⑤ harness 由谁来做：模型厂 vs 平台/社区。** Codex、Claude Code、DeepSeek Harness 都是模型厂商为自家模型配套的 harness，换来模型与外围的深度协同（训练在场、官方跑分口径）；OpenCode、Gemini CLI、Aider 站在中立或平台一侧，换来提供商无关与可移植性。两种出身没有优劣，但决定了项目演化的牵引力来自模型还是来自生态。
+**⑤ harness 由谁来做：模型厂 vs 平台/社区。** Codex、Claude Code、DeepSeek Harness 都是模型厂商为自家模型配套的 harness，换来模型与外围的深度协同（训练在场、官方跑分也跑在自家 harness 上）；OpenCode、Gemini CLI、Aider 站在中立或平台一侧，换来提供商无关与可移植性。两种出身没有优劣，但决定了项目演化的牵引力来自模型还是来自生态。
 
 ## 18.4 构建自己 Agent 的检查清单
 

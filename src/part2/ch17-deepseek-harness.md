@@ -1,10 +1,10 @@
 # 第 17 章 DeepSeek Harness：万物皆插件的微内核运行时
 
-> 本章解剖 DeepSeek Harness（命令行名 `dsh`）——目前唯一直接以「harness」为名的主流开源 Agent 项目，也是「模型厂商下场做 harness」的代表作。它把第 12 章的术语推向极致：连主循环、系统提示词、审批策略本身，都是可插拔、可卸载的插件。（事实口径：截至 2026-10）
+> 本章解剖 DeepSeek Harness（命令行名 `dsh`）——目前唯一直接以「harness」为名的主流开源 Agent 项目，也是「模型厂商下场做 harness」的代表作。它把第 12 章的术语推向极致：连主循环、系统提示词、审批策略本身，都是可插拔、可卸载的插件。（内容截至 2026-10）
 
 ## 17.1 定位与历史
 
-DeepSeek 于 2026 年 8 月 13 日将内部 Agent 运行时以 MIT 协议开源，与 DeepSeek-V4-Pro 模型同日发布——模型与「模型的挽具」一起交到社区手里，这个动作本身就是「模型–harness 协同」的注脚。
+DeepSeek 于 2026 年 8 月 13 日将内部 Agent 运行时以 MIT 协议开源，与 DeepSeek-V4-Pro 模型同日发布——模型与「模型的挽具」一起交到社区手里，这个动作本身就是「模型–harness 协同」的例证。
 
 ```mermaid
 flowchart LR
@@ -24,7 +24,7 @@ flowchart LR
 
 **版本锚定**：本章锚定 **v0.2.0-rc.2**（2026-09-29）。dsh 迄今**全部为预发布**（无正式 stable），走「rc → alpha」双通道高频迭代：v0.1.x 线止于 v0.1.7-rc.2（2026-09-24），一个月内已进入 v0.2.0-rc——开源两个月走完多数项目两年的版本节奏。README 明示「将有不兼容的破坏性变更」，版本跟踪看官方 [tags](https://github.com/deepseek-ai/deepseek-harness/tags)。
 
-架构演进是五个样本里最特别的：**微内核自始定形（「生而微内核」），演进体现为插件种群的爆炸**。开源前的 100+ 篇带日期 ADR（`.agents/notes/`）记录了全部关键决策——微内核事件分类法、turn 闭包不变式、分层技能注册表、压缩的压力触发——开源后这些决策直接兑现为 `packages/` 下约 55 个插件组（core、session、llm、mcp、sandbox、compaction、skill、subagent、hooks、terminal、lsp、workflow、agent teams……）。**值得学的对照**：这是六个项目中架构演进最快的，却拥有最严格的决策文档纪律——developer preview 的激进迭代之所以没有失控，正是因为每个「破坏性变更」背后都有可追溯的 ADR。**速度靠纪律换来的**。
+架构演进是五个样本里最特别的：**微内核自始定型（「生而微内核」），演进体现为插件种群的爆炸**。开源前的 100+ 篇带日期 ADR（`.agents/notes/`）记录了全部关键决策——微内核事件分类法、turn 闭包不变式、分层技能注册表、压缩的压力触发——开源后这些决策直接兑现为 `packages/` 下约 55 个插件组（core、session、llm、mcp、sandbox、compaction、skill、subagent、hooks、terminal、lsp、workflow、agent teams……）。**值得学的对照**：这是六个项目中架构演进最快的，却拥有最严格的决策文档纪律——developer preview 的激进迭代之所以没有失控，正是因为每个「破坏性变更」背后都有可追溯的 ADR。**速度靠纪律换来的**。
 
 当前架构（v0.2.0-rc.2 快照）：
 
@@ -59,7 +59,7 @@ flowchart TB
 
 两个结构性机制值得记住：**profile/bundle**（应用按命名 profile 启动，等于一组 bundle 加补丁层；核心 `dsh-base` 承载模型适配、工具、持久化、沙箱与审批）与**能力缝（capability seam）**（文件系统与子进程服务「共享同一个 execution world」——把沙箱换成远程后端时，Bash、PTY、LSP 作为一个整体一起迁移）。
 
-## 17.3 五视角深潜
+## 17.3 五视角拆解
 
 **① 主循环：step / turn / round 三层语义。** dsh 给循环起了显式的三层名字，用统一伪代码呈现嵌套结构：
 
